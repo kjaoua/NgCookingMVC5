@@ -1,0 +1,40 @@
+﻿@model NgCookingMVC_BackEND.Models.AddPhoneNumberViewModel
+@{
+    ViewBag.Title = "Numéro de téléphone";
+}
+
+<div class="col-xs-12 col-sm-9">
+    <div class="content" id="content_recettes_new">
+
+        <h1 class="page-title">@ViewBag.Title</h1>
+
+        <section class="section">
+            <div class="row">
+
+                @using (Html.BeginForm("AddPhoneNumber", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <h4>Ajouter un numéro de téléphone</h4>
+                    <hr />
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <div class="form-group">
+                        @Html.LabelFor(m => m.Number, new { @class = "fwb" })
+                        <div class="col-md-10">
+                            @Html.TextBoxFor(m => m.Number, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-12 ac">
+                            <input type="submit" class="btn btn_color3 recette_save" value="Envoyer" />
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

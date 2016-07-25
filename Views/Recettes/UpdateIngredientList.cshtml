@@ -1,0 +1,22 @@
+﻿@{Layout = null;}
+<div class="ingredients_list" id="SelectedIngerdients">
+    <ul class="list ac">
+
+        @foreach (var item in ViewBag.selectedIng)
+        {
+            <li class="item">
+                @ImgHelper.Img(item.Picture, "item-img", item.Name)
+
+
+                <p class="@item.Name" title="">@item.Name</p>
+                <button type="button" class="remove_ingredient" onclick="RemoveIng(@item.Id)" ><span class="glyphicon glyphicon-remove"></span></button>
+            </li>
+        }
+
+
+
+    </ul>
+</div>
+                                             
+
+

@@ -1,0 +1,157 @@
+﻿@model NgCookingMVC_BackEND.Models.RecettesViewModel
+@{
+    ViewBag.Title = "Créer une nouvelle recette";
+}
+<div class="col-xs-12 col-sm-9">
+    <div class="content" id="content_recettes_new">
+
+        <h1 class="page-title">@ViewBag.Title</h1>
+
+        <section class="section">
+            <div class="row">
+                @using (Html.BeginForm("Create", "Recettes", FormMethod.Post, new { @class = "row", role = "form", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+
+                    <div class="col-xs-6">
+
+                        <hr />
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        <div class="col-xs-12">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "fwb" })
+                            <div>
+                                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12">
+                            @Html.LabelFor(model => model.NameToDisplay, htmlAttributes: new { @class = "fwb" })
+                            <div>
+                                @Html.EditorFor(model => model.NameToDisplay, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.NameToDisplay, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12">
+                            @Html.LabelFor(model => model.IsAvailable, htmlAttributes: new { @class = "fwb" })
+                            <div>
+                                <div>
+                                    @Html.EditorFor(model => model.IsAvailable)
+                                    @Html.ValidationMessageFor(model => model.IsAvailable, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xs-12">
+                            @Html.LabelFor(model => model.Preparation, htmlAttributes: new { @class = "fwb" })
+                            <div>
+                                @Html.EditorFor(model => model.Preparation, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Preparation, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <p class="line">
+                            <label for="">Photo de la recette</label>
+                            <input type="file" name="file" class="mb0" required>
+                        </p>
+                        <p class="line ac">
+                            <img class="current_img" src="~/img/recette_placeholder.jpg" alt="Visuel recette">
+                        </p>
+                    </div>
+                    <div class="col-xs-12">
+                        <div class="hr mt2 mb2"></div>
+                    </div>
+                    <div class="col-xs-12">
+                        <p class="line ac">
+                            <label for="">Sélectionnez tous les ingrédients de votre recette</label>
+                        </p>
+                        <p class="ac">
+
+
+                            @Html.DropDownList("Category", new SelectList(ViewBag.Categories, "Id", "NameToDisplay"), "Select Category", new { @class = "form-control", @onchange = "GetIng()" })
+
+                            <span class="span-label"><span class="glyphicon glyphicon-menu-right nm"></span></span>
+
+                            @Html.DropDownList("Ingredients", new SelectList(Enumerable.Empty<SelectListItem>(), "Id", "Name"), "Select ingredients", new { @class = "form-control" })
+                            <button type="button" class="btn btn_color3" onclick="AddIng()"><span class="glyphicon glyphicon-plus"></span></button>
+                        </p>
+                        @Html.Partial("UpdateIngredientList")
+
+                        <div class="ac">
+                            <p class="recette_total_calories">
+                                <span class="tit">Valeur calorique <span class="mass">(100g)</span> : </span><span class="val">270<span class="unit">kcal</span></span>
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12">
+                        <div class="hr mb2"></div>
+                    </div>
+
+                    <div class="col-xs-12 ac">
+                        <button type="submit" class="btn btn_color3 recette_save"><span class="glyphicon glyphicon-ok mr0"></span><span>Valider ma recette</span></button>
+                    </div>
+                    @PostResult.PostRctResult((string)@TempData["Status"])
+
+
+                }
+            </div>
+        </section>
+    </div>
+</div>
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+@section Scripts {
+    <script>
+        function GetIng() {
+            var catId = $('#Category').val();
+            if (catId != "") {
+                $.ajax({
+                    url: '/Recettes/GetIngByCategory',
+                    type: "GET",
+                    dataType: "JSON",
+                    data: { id: catId },
+                    success: function (ingredients) {
+                        $("#Ingredients").html(""); // clear before appending new list
+                        $.each(ingredients, function (i, ing) {
+                            $("#Ingredients").append(
+                                $('<option></option>').val(ing.Id).html(ing.Name));
+                        });
+                    },
+                    error: function (error) {
+                    alert('error; ' + eval(error));
+                    }
+                });
+            }
+
+        }
+    </script>
+    <script>
+        function AddIng() {
+            var ingId = $('#Ingredients').val();
+            var url = "/Recettes/UpdateIngredientList/";
+            if (ingId != "") {
+
+                $.post(url, { id: ingId, operation: "add" })
+                            .done(function (response) {
+                                $("#SelectedIngerdients").html(response);
+                            });
+            }
+
+        }
+
+    </script>
+    <script>
+        function RemoveIng(id) {
+           
+            var url = "/Recettes/UpdateIngredientList/";
+            $.post(url, { id: id, operation: "delete" })
+             .done(function (response) {
+                 $("#SelectedIngerdients").html(response);
+             });
+        }
+    </script>
+}

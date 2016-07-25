@@ -1,0 +1,145 @@
+﻿@{ 
+    var rct = @ViewBag.Recette as NgCookingMVC_BackEND.Models.Recettes;
+}
+<div class="col-xs-12 col-sm-9">
+    <div class="content" id="content_recettes_details">
+
+        <section class="section">
+            <div class="row">
+                <div class="col-xs-4">
+                   @* <img class="recette_img" src="~/img/recettes/tajine-de-poulet.jpg" alt="Le tajine de ta maman">*@
+                    @ImgHelper.Img(@rct.Picture, "recette_img", @rct.Name)
+
+
+                </div>
+                <div class="col-xs-8">
+                    <h1 class="rec_name">@rct.Name</h1>
+                    <p class="rec_note">
+                        @{
+                            double average = 0;
+                            int intaverage = 0;
+                            if (rct.Comments != null && (rct.Comments?.Count != 0))
+                            {
+                                average = rct.Comments.Average(x => x.Mark);
+                                intaverage = (int)Math.Round(rct.Comments.Average(x => x.Mark));
+
+                            }
+                        }
+                        <span class="stars">
+                            @for (var i = 1; i <= intaverage; i++)
+                            {
+                                <span class="star glyphicon glyphicon-heart"></span>
+
+                            }
+                            
+                           
+                        </span>
+                       
+                        <span class="notes">| @average/5 - 120 votes</span>
+                    </p>
+                    <div class="ingredients_list">
+                        <p class="list-title">Ingrédients</p>
+                        <ul class="list">
+                            @foreach (var ing in @rct.RecettesIngredients)
+                            {
+                                <li class="item">
+                                    @ImgHelper.Img(ing.Ingredient.Picture, "item-img", @ing.Ingredient.Name)
+
+
+                                    <p class="item-name" title="tomate">@ing.Ingredient.Name</p>
+                                </li>
+                            }
+                            
+                            
+                            
+                            
+                        </ul>
+                    </div>
+                    <p class="rec_cal">Valeur calorique <span class="for">(100g)</span> : <span class="val">270 kcal</span></p>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="overline-title"><span class="text">Préparation</span></h2>
+                </div>
+                <div class="col-xs-12">
+                    <p>@rct.Preparation</p>
+                    
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2 class="overline-title"><span class="text">Commentaires</span></h2>
+                </div>
+               @if (User.Identity.IsAuthenticated)
+               {
+                 <div class="col-xs-12 col-sm-6">
+                   
+                     <div class="panel">
+                        <div class="filters">
+                            <h3 class="panel_title">Donnez-nous votre avis !</h3>
+                          
+                              <form action="">
+                                <div class="filter">
+                                    <p><label for="">Notez cette recette</label></p>
+                                    <p>
+                                        <select name="" id="note">
+                                            <option value="5">5</option>
+                                            <option value="4">4</option>
+                                            <option value="3">3</option>
+                                            <option value="2">2</option>
+                                            <option value="1">1</option>
+                                        </select>
+                                    </p>
+                                </div>
+                                <div class="filter">
+                                    <p><label for="">Le titre de votre commentaire</label></p>
+                                    <p><input type="text" placeholder="ex: Amazingue !" id="title" required></p>
+                                </div>
+                                <div class="filter">
+                                    <p><label for="">Votre commentaire</label></p>
+                                    <textarea name="" id="comment" class="wide" placeholder="ex: Franchement cette NgRecette, c’est de la bombe. Le genre de saveurs qui t’éveillent les papilles, t’as vu ! Woula, j’ai kiffé" required></textarea>
+                                </div>
+                                <div class="ar">
+                                    <input type="button" class="btn btn_color1" value="Poster !" onclick="AddComment()">
+                                </div>
+                               @PostResult.PostCommentResult((string)TempData["CommentStatus"])
+                            </form>
+                          
+                        </div>
+                    </div>
+                   
+                </div>}
+                @Html.Partial("CommentView")
+            </div>
+        </section>
+
+        @Html.Partial("NouvellesRecettes")
+
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function AddComment() {
+            var comment = $('#comment').val();
+            var note = $('#note').val();
+            var title = $('#title').val();
+            var url = "/Recettes/AddComment";
+            $.post(url, { RctId: @rct.Id,note:note,title:title,comment:comment})
+                            .done(function (response) {
+                                window.location.reload();
+                            });
+               
+
+
+        }
+    </script>
+    
+    
+}

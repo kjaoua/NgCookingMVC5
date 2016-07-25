@@ -1,0 +1,48 @@
+﻿
+@{ Layout = null;
+
+    var NewRecettes = TempData["NewRecettes"] as IEnumerable<NgCookingMVC_BackEND.Models.Recettes>;
+}
+<section class="section">
+    <h2 class="title">~ Nouvelles recettes ~</h2>
+    <div class="recettes row">
+        @if (NewRecettes != null)
+        {
+            foreach (var rct in NewRecettes)
+            {
+                <div class="col-xs-6 col-sm-4 col-md-3 recette">
+                    <a href="/Recettes/Details/@rct.Id">
+                        @{
+                            double average = 0;
+                            int intaverage = 0;
+                            if (rct.Comments != null && (rct.Comments?.Count != 0))
+                            {
+                                // average = (int)Math.Round(Model.Comments.Average(w => w.Mark));
+                                average = rct.Comments.Average(x => x.Mark);
+                                intaverage = (int)Math.Round(rct.Comments.Average(x => x.Mark));
+
+                            }
+                        }
+                        @ImgHelper.Img(@rct.Picture, "", @rct.Name)
+                        <div class="top" title="note : @average/5">
+                            <span class="note">
+                                @for (var i = 1; i <= intaverage; i++)
+                                {
+                                    <span class="glyphicon glyphicon-heart"></span>
+                                }
+
+
+                            </span>
+                        </div>
+                        <div class="bot">
+                            <p class="name">@rct.Name</p>
+                        </div>
+                    </a>
+                </div>
+
+                            }
+                            }
+       
+
+    </div>
+</section>

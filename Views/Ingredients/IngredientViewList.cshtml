@@ -1,0 +1,65 @@
+﻿@model NgCookingMVC_BackEND.Models.Ingredients
+@using NgCookingMVC_BackEND.Controllers; 
+@{
+    ViewBag.Title = "Ingredients";
+
+    var Ingredients = TempData["Ingredients"] as IEnumerable<NgCookingMVC_BackEND.Models.Ingredients>;
+    var IngredientsController = new IngredientsController();
+}
+<div class="ingredients row">
+    @if (Ingredients != null &&(Ingredients.Count()!=0) )
+    {
+        foreach (var ing in Ingredients)
+        {
+            <div class="col-xs-12 ingredient">
+                <div class="ing-wrap">
+                    <div class="top">
+                        <p class="name">@ing.Name</p>
+                        <p class="category">@ing.Category.Name</p>
+
+                        @ImgHelper.Img(@ing.Picture, "img", @ing.Category.Name)
+
+                        <div class="calories-wrap">
+                            <div class="val">
+                                <span>@ing.Calories kcal</span>
+                                <div class="battery">
+                                    @{
+                                        double widht = (ing.Calories * 100) / 900;
+                                    }
+                                    <!-- pourcentage ci-dessous à moduler en fonction du nombre de calories de l'ingredient sur nombre de calories max -->
+                                    <div class="level" style="width: @widht%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="bot">
+                        <p class="description">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quo pariatur obcaecati ut, sit veniam molestias eius cum. Facere quibusdam laborum doloribus, incidunt omnis ipsum alias vel est molestiae.</p>
+                        <div class="list">
+                            <p class="list-title">Aliments similaires</p>
+                            <ul>
+                                @{ 
+                                   var similarList = IngredientsController.GetAllIng(ing.CategoryId).ToList();
+                                }
+                                @foreach (var similar in similarList)
+                                {
+                                    <li class="item">
+                                        @ImgHelper.Img(@similar.Picture, "item-img", @similar.Name)
+                                        <p class="item-name" title="@similar.Name">@similar.Name</p>
+                                    </li>
+                                }
+                                
+
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                            <p class="col-xs-12 blank">Aucun ingrédient ne correspond à votre recherche</p>
+                                        }
+</div>

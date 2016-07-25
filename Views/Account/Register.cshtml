@@ -1,0 +1,104 @@
+﻿@model NgCookingMVC_BackEND.Models.RegisterViewModel
+@using NgCookingMVC_BackEND.Models
+@{
+    ViewBag.Title = "S’inscrire";
+
+}
+<div class="col-xs-12 col-sm-9">
+    <div class="content" id="content_recettes_new">
+
+        <h1 class="page-title">@ViewBag.Title</h1>
+
+        <section class="section">
+            <div class="row">
+
+                @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "row", role = "form", enctype = "multipart/form-data" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <hr />
+                    @Html.ValidationSummary("", new { @class = "text-danger" })
+                    <div class="col-xs-6">
+                        @Html.LabelFor(m => m.Email, new { @class = "fwb" })
+                        <div class="mb0 wide">
+                            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Email)
+                    </div>
+
+                    <div class="col-xs-6">
+                        @Html.LabelFor(m => m.Password, new { @class = "fwb" })
+                        <div class="mb0 wide">
+                            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Password)
+
+
+                    </div>
+                    <div class="col-xs-6">
+                        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "fwb" })
+                        <div class="mb0 wide">
+                            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        @Html.LabelFor(m => m.UserSurName, new { @class = "fwb" })
+                        <div class="mb0 wide">
+                            @Html.TextBoxFor(m => m.UserSurName, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.UserSurName)
+                    </div>
+
+                    <div class="col-xs-6">
+                        @Html.LabelFor(m => m.Level, new { @class = "fwb" })
+                        <div class="mb0 wide">
+                            @Html.DropDownListFor(m => m.Level, EnumHelper.GetSelectList(typeof(UserLevels)), "Select Level", new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Level)
+
+
+                    </div>
+                    <div class="col-xs-6">
+                        @Html.LabelFor(m => m.City, new { @class = "fwb" })
+                        <div class="mb0 wide">
+                            @Html.TextBoxFor(m => m.City, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.City)
+
+
+                    </div>
+                    <div class="col-xs-6">
+                        @Html.LabelFor(m => m.Birth, new { @class = "fwb" })
+                        <div class="mb0 wide">
+                            @Html.EditorFor(model => model.Birth, new { @type = "date" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Birth)
+
+
+                    </div>
+                    <div class="col-xs-6">
+                        @Html.LabelFor(m => m.Bio, new { @class = "fwb" })
+
+                        <div class="mb0 wide">
+                            @Html.TextAreaFor(m => m.Bio, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(m => m.Bio)
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="">Photo du profil</label>
+                        <div class="form-control">
+                            <input type="file" name="file" />
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 ac">
+                        <button type="submit" class="btn btn_color3 recette_save"><span class="glyphicon glyphicon-ok mr0"></span><span>S’inscrire</span></button>
+                    </div>
+                }
+            </div>
+        </section>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

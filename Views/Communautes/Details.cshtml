@@ -1,0 +1,96 @@
+﻿@model NgCookingMVC_BackEND.Models.NgCookingUser
+<div class="col-xs-12 col-sm-9">
+    <div class="content" id="content_communaute_details">
+        @if (ViewBag.user != null)
+        {
+           
+             <section class="section details">
+                <div class="row">
+                    <div class="col-vxs-12 col-xs-6 col-sm-5">
+                        <div class="avatar-wrap">
+
+                            @ImgHelper.Img(@ViewBag.user.Picture, "img", @ViewBag.user.UserSurName)
+
+                        </div>
+                    </div>
+                    <div class="col-vxs-12 col-xs-6 col-sm-7">
+                        <div class="infos">
+                            <h1 class="name">@ViewBag.user.UserSurName</h1>
+                            <p class="level">
+
+                                <span class="stars">
+                                    @{
+                                        var lev = (int)ViewBag.user.Level;
+                                    }
+                                    @for (int i = 1; i <= lev; i++)
+                                    {
+                                        <span class="glyphicon glyphicon-star"></span>
+
+                                    }
+                                </span>
+                                <span class="status">@ViewBag.user.Level</span>
+                            </p>
+                            <p class="city"><span class="fwb">Ville : </span>@ViewBag.user.City</p>
+                            @{
+                                int age = DateTime.Now.Year - (int)ViewBag.user.Birth.Year;
+                            }
+                            <p class="age"><span class="fwb">Age : </span>@age ans</p>
+                            <p class="shared"><span class="fwb">Hetta</span> a partagé <span class="nb">@ViewBag.Recettes.Count recettes</span></p>
+                            <p class="bio"><span class="fwb">BIO : </span>@ViewBag.user.Bio</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        <!-- Afficher le bloc ci-dessous uniquement si lutilisateur connecté se rend sur sa propre page -->
+                                <section class="section newrecette">
+                                    <div class="row">
+                                        <div class="col-xs-12">
+                                            <p class="c">Vous en avez sous la toque ?!</p>
+                                            <p class="b">
+                                                <a href="/Recettes/Create" class="btn btn_color1"><span class="glyphicon glyphicon-plus-sign"></span><span>Créez une nouvelle recette</span></a>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </section>
+
+                                <section class="section">
+                                    <h2 class="title">~ Les recettes de @ViewBag.user.UserSurName ~</h2>
+                                    <div class="recettes row">
+                                        @foreach (var rct in ViewBag.Recettes)
+                {
+                                            <div class="col-xs-6 col-sm-3 recette">
+                                                <a href="recettes_details.html">
+                                                    @ImgHelper.Img(@rct.Picture, "img", @rct.Name)
+                                                    <div class="top" title="note : 3,2/5">
+                                                        <span class="note">
+                                                            <span class="glyphicon glyphicon-heart"></span>
+                                                            <span class="glyphicon glyphicon-heart"></span>
+                                                            <span class="glyphicon glyphicon-heart"></span>
+                                                        </span>
+                                                    </div>
+                                                    <div class="bot">
+                                                        <p class="name">@rct.Name</p>
+                                                    </div>
+                                                </a>
+                                            </div>
+                                        }
+
+
+
+                                    </div>
+                                </section>
+                                }
+                                else
+                                {
+                                    <div class="col-xs-12">
+                                        <p class="ac mt2 tb">
+                                            <span class="glyphicon glyphicon-exclamation-sign color2"></span>
+                                            <span>Woops ! Votre recette est super foireuse</span>
+                                        </p>
+                                        <p class="ac">Vous avez dû oublier quelque chose...</p>
+                                    </div>
+                                }
+
+    </div>
+</div>

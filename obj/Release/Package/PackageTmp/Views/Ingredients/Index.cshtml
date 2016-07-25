@@ -1,0 +1,78 @@
+﻿@{
+    ViewBag.Title = "Ingredients";
+
+}
+<div class="col-xs-12 col-sm-9">
+    <div class="content" id="content_ingredients">
+        <h1 class="page-title">Les ingredients</h1>
+
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="panel">
+                    <div class="row imgback">
+                        <div class="hidden-xs col-sm-3"></div>
+                        <div class="col-xs-12 col-sm-9 fp">
+                            <div class="filters">
+                                <form action="#" novalidate>
+                                    <div class="filter">
+                                        <p><label for="">Nom de l'ingrédient</label></p>
+                                        <p><input type="text" placeholder="ex: Banane"></p>
+                                    </div>
+                                    <div class="filter">
+                                        <p><label for="">Catégorie</label></p>
+                                        <p>
+                                            <select name="" id="">
+                                                <option value=""></option>
+                                                <option value="meat">Viandes</option>
+                                                <option value="fruit">Fruits</option>
+                                                <option value="vegetable">Légumes</option>
+                                                <option value="fish">Poissons</option>
+                                                <option value="alcool">Alcools</option>
+                                                <option value="">Etc...</option>
+                                            </select>
+                                        </p>
+                                    </div>
+                                    <div class="filter">
+                                        <p><label for="">Nombre de calories <span class="fwn">(kcal/100g)</span></label></p>
+                                        <p>
+                                            <span class="span-label">entre :</span>
+                                            <input type="number" class="mr0" placeholder="ex: 70">
+                                            <span class="span-label">et</span>
+                                            <input type="number" placeholder="ex: 220">
+                                        </p>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="result">
+
+                    <div class="ingredients row">
+
+                        <p class="" col-xs-12 blank">Aucun ingrédient ne correspond à votre recherche</p>
+                       @Html.Partial("IngredientViewList")
+                        
+                        
+
+
+                    </div>
+
+                </div>
+
+                <div class="row showmore">
+                    <div class="col-xs-12">
+                        <button type="button" class="btn btn_color1" ng-click="getDispNb()"><span class="glyphicon glyphicon-chevron-down"></span>Afficher d'avantage</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@helper getDispNb()
+{
+ViewBag.dispNb += 4;
+}

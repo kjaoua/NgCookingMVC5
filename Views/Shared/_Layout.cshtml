@@ -1,0 +1,206 @@
+﻿@using NgCookingMVC_BackEND.Controllers;
+@{
+    
+    ViewBag.Title = "";
+
+}
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - NgCooking</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <meta name="author" content="c17 engineering" />
+    <meta name="copyright" content="c17 engineering" />
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="true" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1.0, maximum-scale=1.0, minimal-ui" />
+    <meta name="apple-mobile-web-app-title" content="c17 engineering, recettes de cuisine à partager">
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+
+    <link rel="shortcut icon" href="~/img/favicon.png" />
+    <link rel="image_src" href="~/img/favicon.png" />
+    <link rel="icon" type="~/image/png" href="~/img/favicon.png" />
+
+    <meta name="robots" content="noindex, nofollow" />
+
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800' rel='stylesheet' type='text/css'>
+
+    @*<link href="~/Content/reset.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/style.css" rel="stylesheet" type="text/css" />*@
+</head>
+<body>
+    <div id="wrapper">
+        <header id="header">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <a href="/" class="logo">
+                            <img src="~/img/logo_header.png" alt="">
+                        </a>
+                        <div class="desc">
+                            <p>Partagez vos meilleures recettes avec<br />la communauté NgCooking</p>
+                            <p><a class="link" href="/Recettes"><strong>@TempData["RctNb"] Recettes</strong> à découvrir !</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            @*<button type="button" id="mobile-menu-btn">
+                <i class="glyphicon glyphicon-menu-hamburger"></i>
+            </button>*@
+        </header>
+        <main id="main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-3" id="col-nav">
+                        
+                        <nav id="nav">
+                            <ul class="menu">
+                                @if (ViewContext.RouteData.Values["controller"].ToString() == "Home")
+                                {
+                                    <li class="page_hom active">
+                                        @Html.ActionLink("Accueil", "index", "Home")
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page_hom">
+                                        @Html.ActionLink("Accueil", "index", "Home")
+                                    </li>
+                                }
+                                @if (ViewContext.RouteData.Values["controller"].ToString() == "Recettes")
+                                {
+                                    <li class="page_rec active" >
+                                        @Html.ActionLink("Recettes", "index", "Recettes")
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page_rec">
+                                        @Html.ActionLink("Recettes", "index", "Recettes")
+                                    </li>
+                                }
+                                @if (ViewContext.RouteData.Values["controller"].ToString() == "Ingredients")
+                                {
+                                    <li class="page_ing active">
+                                        @Html.ActionLink("Ingredients", "index", "Ingredients")
+
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page_ing">
+                                        @Html.ActionLink("Ingredients", "index", "Ingredients")
+
+                                    </li>
+                                }
+                                @if (ViewContext.RouteData.Values["controller"].ToString() == "Communautes")
+                                {
+                                    <li class="page_com active">
+                                        @Html.ActionLink("Communautes", "index", "Communautes")
+
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page_com">
+                                        @Html.ActionLink("Communautes", "index", "Communautes")
+
+                                    </li>
+                                }
+                                
+                            </ul>
+                            @Html.Partial("_LoginPartial")
+                            <div class="account-area">
+                                @*<button type="button" class="button connect" data-popin-open="connect_popin"><span class="icon"></span>Connexion</button>*@
+                                @if(User.Identity.IsAuthenticated){
+
+                                <a href="Communautes/Details" class="button account"><span class="icon"></span>Mon profil</a>
+
+                                }
+                                
+                                @*<button type="button" class="button deconnect"><span class="glyphicon glyphicon-off"></span>Deconnexion</button>*@
+                            </div>
+                        </nav>
+                    </div>
+                    <div>
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
+        </main>
+       
+    </div>
+
+    <div class="popin" data-popin="connect_popin">
+        <div class="popin-content">
+            <div class="popin-scroll">
+                <p class="popin-title">Connexion</p>
+                <form action="#">
+                    <p>
+                        <label for="co_user" class="fwb">Identifiant (email)</label>
+                        <input id="co_user" class="wide" type="text" />
+                    </p>
+                    <p>
+                        <label for="co_pwd" class="fwb">Mot de passe</label>
+                        <input id="co_pwd" class="wide" type="text" />
+                    </p>
+                    <p class="ac nm mt2">
+                        <button type="button" class="btn btn_big btn_color1"><span class="glyphicon glyphicon-ok"></span><span class="fwb uc">Valider</span></button>
+                    </p>
+                </form>
+            </div>
+            <button class="close popin-close"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+        <div class="popin-backlayer"></div>
+    </div>
+
+@section scripts{
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("[data-popin-open]").click(function () {
+                var popin = $(this).attr("data-popin-open");
+                $("[data-popin='" + popin + "']").addClass("displayed");
+            });
+            $("[data-popin] .popin-backlayer, [data-popin]  .popin-close , [data-popin] .btn_continuer").click(function () {
+                $(this).parents(".popin").removeClass("displayed");
+            });
+        });
+    </script>
+    }
+    <div class="container body-content">
+      
+        <hr />
+       
+    </div>
+    <footer id="footer">
+        <div class="container">
+            <div class="row cuisto-img-wrap">
+                <div class="hidden-xs col-sm-3">
+                    <div class="cuisto-img"></div>
+                </div>
+                <div class="col-xs-12 col-sm-9">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Esse optio repellat temporibus molestiae ducimus quibusdam eum maiores voluptatum sapiente reprehenderit. Est, modi, tenetur. Tempora perferendis eveniet unde numquam cupiditate nam?</p>
+                    <div class="hr"></div>
+                    <p class="copyright">copyright ngcooking 2015-2016</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/bootstrap")*@
+    @RenderSection("scripts", required: false)
+</body>
+</html>

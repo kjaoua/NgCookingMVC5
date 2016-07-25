@@ -1,0 +1,75 @@
+﻿@model NgCookingMVC_BackEND.Models.IngredientViewModel
+
+<div class="col-xs-12 col-sm-9">
+    <div class="content" id="content_recettes_new">
+
+        <h1 class="page-title">Nouvel Ingrédient</h1>
+
+        <section class="section">
+
+            <div class="row">
+                @using (Html.BeginForm("Create", "Ingredients", FormMethod.Post, new { @class = "row", role = "form", enctype = "multipart/form-data" }))
+                {
+
+                    @Html.AntiForgeryToken()
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "fwb" })
+                        <div>
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.IsAvailable, htmlAttributes: new { @class = "fwb" })
+                        <div>
+                            <div class="checkbox">
+                                @Html.EditorFor(model => model.IsAvailable)
+                                @Html.ValidationMessageFor(model => model.IsAvailable, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.CategoryId, htmlAttributes: new { @class = "fwb" })
+                        <div>
+                            @Html.DropDownListFor(model => model.CategoryId, new SelectList(ViewBag.Categories, "Id", "NameToDisplay"), "Select Category")
+                            @*@Html.ValidationMessageFor(model => model.CategoryId, "", new { @class = "text-danger" })*@
+                        </div>
+                    </div>
+
+                    <div class="col-xs-6">
+                        @Html.LabelFor(model => model.Calories, htmlAttributes: new { @class = "fwb" })
+                        <div>
+                            @Html.EditorFor(model => model.Calories, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Calories, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="col-xs-6">
+                        <label for="">Photo de l'ingrédient</label>
+                        <div class="form-control">
+                            <input type="file" name="file" required />
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 ac">
+                        <button type="submit" class="btn btn_color3 recette_save"><span class="glyphicon glyphicon-ok mr0"></span><span>Valider</span></button>
+                    </div>
+                        @PostResult.PostIngResult((string)@TempData["Status"])
+
+                }
+            </div>
+
+        </section>
+
+    </div>
+
+</div>
+
+
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>

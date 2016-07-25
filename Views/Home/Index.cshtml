@@ -1,0 +1,143 @@
+﻿@model NgCookingMVC_BackEND.Models.Recettes
+@{
+    ViewBag.Title = "Home Page";
+    var Top4Recettes = ViewBag.RecettesTop4 as IEnumerable<NgCookingMVC_BackEND.Models.Recettes>;
+}
+<div class="col-xs-12 col-sm-9">
+    <div class="content" id="content_home">
+
+        <h1 class="page-title">Bienvenue sur NgCooking !</h1>
+        @*@Html.Partial("Recettes/NouvellesRecettes")*@
+        <section class="section">
+            <h2 class="title">~ Meilleures recettes ~</h2>
+            <div class="recettes row">
+              @foreach (var rct in Top4Recettes)
+              {
+                <div class="col-xs-6 col-sm-3 recette">
+                    <a href="/Recettes/Details/@rct.Id">
+                        
+                        @ImgHelper.Img(@rct.Picture, "img", @rct.Name)
+                        @{
+                            double average = 0;
+                            int intaverage = 0;
+                            if (rct.Comments != null && (rct.Comments?.Count !=0))
+                            {
+
+                                average = rct.Comments.Average(x => x.Mark);
+                                intaverage = (int)Math.Round(rct.Comments.Average(x => x.Mark));
+
+                            }
+                        }
+                        <div class="top" title="note : @average/5">
+                            <span class="note">
+                                @for (var i = 1; i <= intaverage; i++)
+                                {
+                                    <span class="glyphicon glyphicon-heart"></span>
+
+                                }
+                                
+                            </span>
+                        </div>
+                        <div class="bot">
+                            <p class="name">@rct.Name</p>
+                        </div>
+                    </a>
+                </div>
+              }
+                  
+              
+            </div>
+        </section>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <section class="section newrecette">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p class="c">Vous en avez sous la toque ?!</p>
+                        <p class="b">
+                            <a href="Recettes/Create" class="btn btn_color1"><span class="glyphicon glyphicon-plus-sign"></span><span>Créez une nouvelle recette</span></a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        }
+        
+
+        <section class="section">
+            <h2 class="title">~ Nouvelles recettes ~</h2>
+            <div class="recettes row">
+                <div class="col-xs-6 col-sm-3 recette">
+                    <a href="recettes_details.html">
+                        <img src="~/img/recettes/cake-jambon-olive.jpg" alt="Cake au jambon et aux olives">
+                        <div class="top" title="note : 2,4/5">
+                            <span class="note">
+                                <span class="glyphicon glyphicon-heart"></span>
+                                <span class="glyphicon glyphicon-heart"></span>
+                            </span>
+                        </div>
+                        <div class="bot">
+                            <p class="name">Cake au jambon et aux olives</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-3 recette">
+                    <a href="recettes_details.html">
+                        <img src="~/img/recettes/tajine-de-poulet.jpg" alt="Le tajine de ta maman">
+                        <div class="top" title="note : 3,2/5">
+                            <span class="note">
+                                <span class="glyphicon glyphicon-heart"></span>
+                                <span class="glyphicon glyphicon-heart"></span>
+                                <span class="glyphicon glyphicon-heart"></span>
+                            </span>
+                        </div>
+                        <div class="bot">
+                            <p class="name">Tajine de poulet</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-3 recette">
+                    <a href="recettes_details.html">
+                        <img src="~/img/recettes/saumon-echalotte.jpg" alt="Saumon à l'échalotte">
+                        <div class="top" title="note : 3,2/5">
+                            <span class="note">
+                                <span class="glyphicon glyphicon-heart"></span>
+                                <span class="glyphicon glyphicon-heart"></span>
+                                <span class="glyphicon glyphicon-heart"></span>
+                            </span>
+                        </div>
+                        <div class="bot">
+                            <p class="name">Saumon à l'échalotte</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col-xs-6 col-sm-3 recette">
+                    <a href="recettes_details.html">
+                        <img src="~/img/recettes/tarte-citron-meringue.jpg" alt="Tarte citron meringué">
+                        <div class="top" title="note : 4,7/5">
+                            <span class="note">
+                                <span class="glyphicon glyphicon-heart"></span>
+                                <span class="glyphicon glyphicon-heart"></span>
+                                <span class="glyphicon glyphicon-heart"></span>
+                                <span class="glyphicon glyphicon-heart"></span>
+                                <span class="glyphicon glyphicon-heart"></span>
+                            </span>
+                        </div>
+                        <div class="bot">
+                            <p class="name">Tarte citron meringué</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!--
+        <section class="section">
+            <h2 class="title">~ Comment faire une omelette sans casser des oeufs ? ~</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Blanditiis consequatur corrupti reiciendis soluta voluptatum provident! Et adipisci pariatur, expedita vero ea veniam unde accusantium, sunt facere impedit maxime vitae debitis!Lorem ipsum dolor sit amet, consectetur adipisicing elit. Expedita doloribus vero sequi. Iste ratione adipisci, dolorum voluptatum quis deleniti culpa numquam distinctio, mollitia fuga quaerat, asperiores autem quibusdam et sit.Lorem ipsum dolor sit amet, consectetur adipisicing elit. Qui sunt ratione quidem placeat aliquid magnam enim. Nihil eum, reprehenderit recusandae, earum error repellendus dees. </p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aliquid dolorum explicabo maxime fugiat, numquam, omnis, fuga id officiis cupiditate voluptatem illo ad corporis, quae recusandae ex sit reiciendis? Unde, ea. Dignissimos eligendi, dolor, illo quas voluptate behar ? Voluptas.</p>
+            <p>Soluta vitae deleniti consequuntur illum. Optio at, eligendi necessitatibus mollitia saepe, voluptate quo adipisci, illo quod magnam rem sequi nisi sunt ipsam? Expedita doloribus vero sequi. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iste ratione adipisci, dolorum voluptatum quis deleniti culpa numquam distinctio. Poluptate quo adipisci, illo quod magnam rem sequi nisi sunt ipsam? Expedita doloribus vero sequi. Lorem ipsum dolor sit amet, consectetur adipisicing murasso elit.</p>
+        </section>
+        -->
+
+    </div>
+</div>

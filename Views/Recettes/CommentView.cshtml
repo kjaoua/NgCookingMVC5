@@ -1,0 +1,30 @@
+﻿@{ Layout = null;
+
+    var users = TempData["users"] as IEnumerable<NgCookingMVC_BackEND.Models.NgCookingUser>;
+}
+<div class="col-xs-12 col-sm-6">
+    <ul class="comments">
+        @if (ViewBag.Comments != null)
+        {
+
+
+            foreach (var comm in ViewBag.Comments)
+            {
+                <li class="comment">
+                    <p class="name">@comm.Title<span class="note">@comm.Mark/5</span></p>
+                    @{
+                        var userName = users.FirstOrDefault(x => x.Id == @comm.UserId).UserSurName;
+                    }
+                    <p class="by">par <a href="/Communautes/Details/@comm.UserId"> @userName</a></p>
+                    <p class="text">@comm.Comment</p>
+                </li>
+            }
+        }
+
+    </ul>
+    <div class="row showmore">
+        <div class="col-xs-12">
+            <button type="button" class="btn btn_grey"><span class="glyphicon glyphicon-chevron-down"></span>Afficher d'avantage</button>
+        </div>
+    </div>
+</div>

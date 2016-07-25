@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<parameters>
+  <parameter name="IIS Web Application Name" description="" value="Default Web Site/NgMVC" tags="IisApp">
+    <parameterEntry kind="ProviderPath" scope="IisApp" match="^C:\\Users\\C17\ Developer\\Documents\\Visual\ Studio\ 2015\\Projects\\NgCookingMVC_BackEND\\NgCookingMVC_BackEND\\obj\\Release\\Package\\PackageTmp$" />
+    <parameterEntry kind="ProviderPath" scope="setAcl" match="^C:\\Users\\C17\ Developer\\Documents\\Visual\ Studio\ 2015\\Projects\\NgCookingMVC_BackEND\\NgCookingMVC_BackEND\\obj\\Release\\Package\\PackageTmp$" />
+  </parameter>
+  <parameter name="DBConnectionString-Web.config Connection String" description="" value="Data Source=.;Initial Catalog=NgCookingDB_BackEnd;Integrated Security=True" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\C17\ Developer\\Documents\\Visual\ Studio\ 2015\\Projects\\NgCookingMVC_BackEND\\NgCookingMVC_BackEND\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DBConnectionString']/@connectionString" />
+  </parameter>
+  <parameter name="DefaultConnection-Web.config Connection String" description="" value="Data Source=.;Initial Catalog=NgCookingDB_BackEnd;Integrated Security=True" tags="">
+    <parameterEntry kind="XmlFile" scope="C:\\Users\\C17\ Developer\\Documents\\Visual\ Studio\ 2015\\Projects\\NgCookingMVC_BackEND\\NgCookingMVC_BackEND\\obj\\Release\\Package\\PackageTmp\\Web\.config$" match="/configuration/connectionStrings/add[@name='DefaultConnection']/@connectionString" />
+  </parameter>
+</parameters>

@@ -1,0 +1,168 @@
+﻿@model NgCookingMVC_BackEND.Models.Recettes
+@{
+    ViewBag.Title = "Recettes";
+   
+    var recettes = TempData["Recettes"] as IEnumerable<NgCookingMVC_BackEND.Models.Recettes>;
+}
+<div class="col-xs-12 col-sm-9">
+    <div class="content" id="content_recettes">
+        <h1 class="page-title">Les recettes</h1>
+
+        <section class="section">
+            <h2 class="title">~ Trouver une recette ~</h2>
+            <div class="panel">
+                <div class="row imgback">
+                    <div class="col-xs-3"></div>
+                    <div class="col-xs-12 col-sm-9 fp">
+                        <div class="filters">
+                            <form action="">
+                                <div class="filter">
+                                    <p><label for="">Nom de la recette</label></p>
+                                    <p><input type="text" id="NameRct" placeholder="ex: Tajine de poulet"  onchange="GetList(false)"></p>
+                                </div>
+                                <div class="filter">
+                                    <p><label for="">Ingrédient(s) utlisé(s) pour la recette</label></p>
+                                    <p><input type="text" id="IngList" placeholder="ex: poulet;oeuf;farine"  onchange="GetList(false)"></p>
+                                </div>
+                                <div class="filter">
+                                    <p><label for="">Valeur calorique de la recette <span class="fwn">(kcal/100g)</span></label></p>
+                                    <p>
+                                        <span class="span-label">entre :</span>
+                                        <input type="number" class="mr0" placeholder="ex: 450"  onchange="GetList(false)">
+                                        <span class="span-label">et</span>
+                                        <input type="number" placeholder="ex: 750"  onchange="GetList(false)">
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="sort">
+                <p>
+                    <span class="span-label">Trier par :</span>
+                    <select name="" id="Order" onchange="GetList(false)">
+                        <option value="az">Ordre alphabétique (A->Z)</option>
+                        <option value="za">Ordre alphabétique (Z->A)</option>
+                        <option value="new">Les plus récentes d'abord</option>
+                        <option value="old">Les plus anciennes d'abord</option>
+                        <option value="best">Les mieux notées d'abord</option>
+                        <option value="worst">Les moins bien notées d'abord</option>
+                        <option value="cal">Du moins calorique au plus calorique</option>
+                        <option value="cal_desc">Du plus calorique au moins calorique</option>
+                    </select>
+                </p>
+            </div>
+
+
+            <div class="result" id="result">
+                @Html.Partial("RecetteViewList")
+                
+                @*<div class="recettes row">
+                    @if (recettes != null)
+                    {
+
+
+
+
+                        foreach (var rct in recettes)
+                        {
+                            <div class="col-xs-6 col-sm-4 col-md-3 recette">
+                                <a href="/Recettes/Details/@rct.Id">
+                                    @{
+                                        double average = 0;
+                                        int intaverage = 0;
+                                        if (rct.Comments != null && (rct.Comments?.Count != 0))
+                                        {
+                                            // average = (int)Math.Round(Model.Comments.Average(w => w.Mark));
+                                            average = rct.Comments.Average(x => x.Mark);
+                                            intaverage = (int)Math.Round(rct.Comments.Average(x => x.Mark));
+
+                                        }
+                                    }
+                                    @ImgHelper.Img(@rct.Picture, "", @rct.Name)
+                                    <div class="top" title="note : @average/5">
+                                        <span class="note">
+                                            @for (var i = 1; i <= intaverage; i++)
+                                            {
+                                                <span class="glyphicon glyphicon-heart"></span>
+                                            }
+
+
+                                        </span>
+                                    </div>
+                                    <div class="bot">
+                                        <p class="name">@rct.Name</p>
+                                    </div>
+                                </a>
+                            </div>
+                                            }
+
+
+
+                                        }
+
+
+                                        else
+                                        {
+                                            <p class="col-xs-12 blank">Aucune recette ne correspond à votre recherche</p>
+
+                                        }
+
+                </div>*@
+            </div>
+            <div class="row showmore">
+                <div class="col-xs-12">
+                    <button type="button" class="btn btn_color1" onclick="GetList(true)"><span class="glyphicon glyphicon-chevron-down"></span>Afficher d'avantage</button>
+                </div>
+            </div>
+
+        </section>
+        @if (User.Identity.IsAuthenticated)
+            {
+            <section class="section newrecette">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p class="c">Vous en avez sous la toque ?!</p>
+                        <p class="b">
+                            <a href="/Recettes/Create" class="btn btn_color1"><span class="glyphicon glyphicon-plus-sign"></span><span>Créez une nouvelle recette</span></a>
+                        </p>
+                    </div>
+                </div>
+            </section>
+        }
+        @Html.Partial("MeilleuresRecettes")
+        @Html.Partial("NouvellesRecettes")
+        
+
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function GetList(IsIncrement) {
+            var IngList = $('#IngList').val();
+            var NameRct = $('#NameRct').val();
+            var MinCal = $('#MinCal').val();
+            var MaxCal = $('#MaxCal').val();
+            var Order = $('#Order').val();
+           
+            if (MaxCal == "") {
+                MaxCal = 10000;
+            }
+            if (MinCal == "") {
+                MinCal = 0;
+            }
+
+
+            var url = "/Recettes/RecetteViewList/";
+            $.post(url, { IngList: IngList, NameRct: NameRct, MinCal: 0, MaxCal: 1000, IncrementDisplay: false, Order: IsIncrement })
+                            .done(function (partialViewResult) {
+                                
+                                $("#result").html(partialViewResult);
+                            });
+
+
+        }
+    </script>
+    
+}

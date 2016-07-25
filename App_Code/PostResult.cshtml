@@ -1,0 +1,91 @@
+﻿@helper PostRctResult(string result)
+{
+if (result == "Created")
+{
+            <!-- Afficher au clic sur "valider ma recette" lorsque tout s'est bien déroulé -->
+        <div class="col-xs-12">
+            <p class="ac mt2 tb">
+                <span class="glyphicon glyphicon-thumbs-up color3"></span>
+                <span>Votre Recette a bien été ajoutée !</span>
+            </p>
+            <p class="ac">
+                <a class="btn btn_color1" href="/Recettes"><span class="glyphicon glyphicon-cutlery"></span><span>Retourner à la liste des recettes</span></a>
+            </p>
+        </div>
+}
+else if (result == "NotCreated")
+
+{
+        		<!-- Afficher au clic sur "valider ma recette" si certains éléments sont manquants -->
+        <div class="col-xs-12">
+            <p class="ac mt2 tb">
+                <span class="glyphicon glyphicon-exclamation-sign color2"></span>
+                <span>Woops ! Votre recette est super foireuse</span>
+            </p>
+            <p class="ac">Vous avez dû oublier quelque chose...</p>
+        </div>
+}
+
+
+
+}
+@helper PostIngResult(string result)
+{
+if (result == "Created")
+{
+            <!-- Afficher au clic sur "valider ma recette" lorsque tout s'est bien déroulé -->
+        <div class="col-xs-12">
+            <p class="ac mt2 tb">
+                <span class="glyphicon glyphicon-thumbs-up color3"></span>
+                <span>Votre ingredient a bien été ajoutée !</span>
+            </p>
+            <p class="ac">
+                <a class="btn btn_color1" href="/Ingredients"><span class="glyphicon glyphicon-cutlery"></span><span>Retourner à la liste des ingrédients</span></a>
+            </p>
+        </div>
+}
+else if (result == "NotCreated")
+
+{
+        		<!-- Afficher au clic sur "valider ma recette" si certains éléments sont manquants -->
+        <div class="col-xs-12">
+            <p class="ac mt2 tb">
+                <span class="glyphicon glyphicon-exclamation-sign color2"></span>
+                <span>Woops ! Votre ingredient n'était pas ajouté</span>
+            </p>
+            <p class="ac">Vous avez dû oublier quelque chose...</p>
+        </div>
+}
+
+
+
+}
+@helper PostCommentResult(string result)
+{
+if (result == "Created")
+{
+            <!-- Afficher au clic sur "valider ma recette" lorsque tout s'est bien déroulé -->
+        <div class="col-xs-12">
+            <p class="ac mt2 tb">
+                <span class="glyphicon glyphicon-thumbs-up color3"></span>
+                <span>Votre Commentaire a bien été ajoutée !</span>
+            </p>
+            
+        </div>
+}
+else if (result == "NotCreated")
+
+{
+        		<!-- Afficher au clic sur "valider ma recette" si certains éléments sont manquants -->
+        <div class="col-xs-12">
+            <p class="ac mt2 tb">
+                <span class="glyphicon glyphicon-exclamation-sign color2"></span>
+                <span>Woops ! Votre Commentaire n'était pas ajouté</span>
+            </p>
+            <p class="ac">Vous avez dû oublier quelque chose...</p>
+        </div>
+}
+
+
+
+}
